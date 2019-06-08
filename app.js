@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const server = require("http").Server(app);
 const session = require('express-session');
 const passport = require('passport');
 const flash = require('connect-flash');
@@ -95,6 +96,9 @@ app.use("/", require("./routes/index.js"));
 app.use("/users", require("./routes/users.js"));
 app.use("*",  require("./routes/404"));
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, console.log(`Server started on port ${PORT}`));
+server.listen(
+  PORT,  
+  console.log("Server is runing at 3000")
+);
