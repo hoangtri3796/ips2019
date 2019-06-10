@@ -12,4 +12,8 @@ router.get('/dashboard', ensureAuthenticated, (req, res) =>
   })
 );
 
+// Map
+router.get('/indoor-map', (req, res) => res.render('indoor-map'));
+router.get('/vector-map', (req, res) => res.render('vector-map'));
+
 module.exports = router;

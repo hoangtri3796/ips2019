@@ -95,10 +95,11 @@ app.use(express.static("public"));
 app.use("/", require("./routes/index.js"));
 app.use("/users", require("./routes/users.js"));
 app.use("*",  require("./routes/404"));
+//app.use("/dashboarrd", require("./routes/dashboard.js"));
 
 const PORT = process.env.PORT || 3000;
 
 server.listen(
   PORT,  
-  console.log("Server is runing at 3000")
+  console.log("Server is running at 3000")
 );
