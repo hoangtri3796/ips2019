@@ -7,6 +7,10 @@
 
     <title>IPS2019</title>
 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+    crossorigin=""/>
+
     <!-- ================= Favicon ================== -->
     <!-- Standard -->
     <link rel="shortcut icon" href="http://placehold.it/64.png/000/fff">
@@ -29,6 +33,269 @@
 	
     <link href="assets/css/lib/helper.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+    integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+    crossorigin=""></script>
+    <script src="/map.js" ></script>
+    <style>
+        #map {
+  width: 1050px;
+  height: 500px;
+  margin: 0 auto 10px auto;
+  border: 1px solid #ccc;
+  background: #252A2E;
+}
+.location-pin {
+  display: inline-block;
+  position: relative;
+  top: 50%;
+  left: 50%;
+}
+.location-pin img {
+  width: 26px;
+  height: 26px;
+  margin: -3px 0 0 -3px;
+  z-index: 10;
+  position: absolute;
+  border-radius: 50%;
+  animation-name: bounce-only;
+  animation-fill-mode: both;
+  animation-duration: 1s;
+  background: #32383e;
+}
+.pin {
+  width: 30px;
+  height: 30px;
+  border-radius: 50% 50% 50% 0;
+  background: #32383e;
+  position: absolute;
+  transform: rotate(-45deg);
+  left: 50%;
+  top: 50%;
+  margin: -20px 0 0 -20px;
+  animation-name: bounce;
+  animation-fill-mode: both;
+  animation-duration: 1s;
+}
+.pin:after {
+  content: '';
+  width: 26px;
+  height: 26px;
+  margin: 2px 0 0 2px;
+  position: absolute;
+  border-radius: 50%;
+  animation-name: bounce-rotate;
+  animation-fill-mode: both;
+  animation-duration: 1s;
+}
+.pulse {
+  background: rgba(0,0,0,0.2);
+  border-radius: 50%;
+  height: 14px;
+  width: 14px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: 11px 0px 0px -12px;
+  transform: rotateX(55deg);
+  z-index: -2;
+}
+.pulse:after {
+  content: "";
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  margin: -13px 0 0 -13px;
+  animation: pulsate 2.5s ease-out;
+  animation-iteration-count: infinite;
+  opacity: 0;
+  background: rgba(94,190,255,0.5);
+  box-shadow: 0 0 1px 2px #2d99d3;
+  animation-delay: 1.1s;
+}
+@-moz-keyframes pulsate {
+  0% {
+    transform: scale(0.1, 0.1);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2, 1.2);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes pulsate {
+  0% {
+    transform: scale(0.1, 0.1);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2, 1.2);
+    opacity: 0;
+  }
+}
+@-o-keyframes pulsate {
+  0% {
+    transform: scale(0.1, 0.1);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2, 1.2);
+    opacity: 0;
+  }
+}
+@keyframes pulsate {
+  0% {
+    transform: scale(0.1, 0.1);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2, 1.2);
+    opacity: 0;
+  }
+}
+@-moz-keyframes bounce {
+  0% {
+    opacity: 0;
+    transform: translateY(-2000px) rotate(-45deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(30px) rotate(-45deg);
+  }
+  80% {
+    transform: translateY(-10px) rotate(-45deg);
+  }
+  100% {
+    transform: translateY(0) rotate(-45deg);
+  }
+}
+@-webkit-keyframes bounce {
+  0% {
+    opacity: 0;
+    transform: translateY(-2000px) rotate(-45deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(30px) rotate(-45deg);
+  }
+  80% {
+    transform: translateY(-10px) rotate(-45deg);
+  }
+  100% {
+    transform: translateY(0) rotate(-45deg);
+  }
+}
+@-o-keyframes bounce {
+  0% {
+    opacity: 0;
+    transform: translateY(-2000px) rotate(-45deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(30px) rotate(-45deg);
+  }
+  80% {
+    transform: translateY(-10px) rotate(-45deg);
+  }
+  100% {
+    transform: translateY(0) rotate(-45deg);
+  }
+}
+@keyframes bounce {
+  0% {
+    opacity: 0;
+    transform: translateY(-2000px) rotate(-45deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(30px) rotate(-45deg);
+  }
+  80% {
+    transform: translateY(-10px) rotate(-45deg);
+  }
+  100% {
+    transform: translateY(0) rotate(-45deg);
+  }
+}
+@-moz-keyframes bounce-only {
+  0% {
+    opacity: 0;
+    transform: translateY(-2000px) rotate(-45deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(30px) rotate(-45deg);
+  }
+  80% {
+    transform: translateY(-10px) rotate(-10deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+@-webkit-keyframes bounce-only {
+  0% {
+    opacity: 0;
+    transform: translateY(-2000px) rotate(-45deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(30px) rotate(-45deg);
+  }
+  80% {
+    transform: translateY(-10px) rotate(-10deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+@-o-keyframes bounce-only {
+  0% {
+    opacity: 0;
+    transform: translateY(-2000px) rotate(-45deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(30px) rotate(-45deg);
+  }
+  80% {
+    transform: translateY(-10px) rotate(-10deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+@keyframes bounce-only {
+  0% {
+    opacity: 0;
+    transform: translateY(-2000px) rotate(-45deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(30px) rotate(-45deg);
+  }
+  80% {
+    transform: translateY(-10px) rotate(-10deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+    </style>
 </head>
 
 <body>
@@ -231,7 +498,7 @@
                         </div>
                         <div class="dropdown dib">
                             <div class="header-icon" data-toggle="dropdown">
-                                <span class="user-avatar">John
+                                <span class="user-avatar">Hoang Tri
                                     <i class="ti-angle-down f-s-10"></i>
                                 </span>
                                 <div class="drop-down dropdown-profile dropdown-menu dropdown-menu-right">
@@ -289,7 +556,7 @@
             <div class="container-fluid">
                 <div class="row">
 					<div class="col-md-8">
-						<h1>Hello, <span>Welcome Here</span></h1>
+						<h2><span>Indoor Map</span></h2>
 					</div>
 					<div class="col-md-4">
 						<nav class="float-right">
@@ -304,19 +571,7 @@
                 <section id="main-content">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="card nestable-cart">
-                                <div class="card-title">
-                                    <h4>Indoor Map</h4>
-                                    <div class="card-title-right-icon">
-                                        <ul>
-                               
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="Vector-map-js">
-                                    <div id="vmap" class="vmap"></div>
-                                </div>
-                            </div>
+                            <div id="map"></div>
                             <!-- /# card -->
                         </div>
                         <!-- /# column -->
@@ -333,7 +588,75 @@
             </div>
         </div>
     </div>
+    <script> 
+    // Using leaflet.js to pan and zoom a big image.
+// See also: http://kempe.net/blog/2014/06/14/leaflet-pan-zoom-image.html
+// Marker Pin: https://codepen.io/zachdunn/pen/wapEam
+// create the slippy map
+var map = L.map('map', {
+  minZoom: 1,
+  maxZoom: 4,
+  center: [0, 0],
+  zoom:1,
+  crs: L.CRS.Simple,
+  attributionControl: false
+});
 
+L.control.attribution({
+  prefix: false
+}).addAttribution('HQ @ Business Inc').addTo(map);
+
+// House: https://i.imgur.com/cenqiCf.jpg
+// Palace SVG (1280 x 806): https://dl.dropbox.com/s/yhrpnftsuis15z6/Topkapi_Palace_plan.svg
+// dimensions of the image
+var w = 1920 * 2,
+    h = 1000 * 2,
+    url = 'https://dl.dropbox.com/s/yhrpnftsuis15z6/Topkapi_Palace_plan.svg';
+
+// calculate the edges of the image, in coordinate space
+var southWest = map.unproject([0, h], map.getMaxZoom()-1);
+var northEast = map.unproject([w, 0], map.getMaxZoom()-1);
+var bounds = new L.LatLngBounds(southWest, northEast);
+
+// add the image overlay, 
+// so that it covers the entire map
+L.imageOverlay(url, bounds).addTo(map);
+
+// tell leaflet that the map is exactly as big as the image
+map.setMaxBounds(bounds);
+
+// pixel coords
+var m = {
+x: 1250, 
+y: 850
+}
+//Add marker
+var newMarkerGroup = new L.LayerGroup();
+map.on('click', addMarker);
+var addedOne = false,
+    customPin = L.divIcon({
+    className: 'location-pin',
+    html: '<img src="https://static.robinpowered.com/roadshow/robin-avatar.png"><div class="pin"></div><div class="pulse"></div>',
+    iconSize: [30, 30],
+    iconAnchor: [18, 30]
+  });
+function addMarker(e){
+// Add marker to map at click location; add popup window
+  if (addedOne) {
+    return;
+  }
+}
+// Lookup neighbors https://github.com/mapbox/leaflet-knn
+
+var marker = L.marker(map.unproject([m.x, m.y], map.getMaxZoom()), {
+    icon: customPin
+  }).addTo(map);
+// Add pop up for click
+marker.bindPopup("<b>Tag</b><br> x : " + m.x + " , " + "y : " + m.y);
+   
+    </script>
+    <script src="raphael-min.js"></script>
+    <script src="map.js"></script>
     <!-- jquery vendor -->
     <script src="assets/js/lib/jquery.min.js"></script>
     <script src="assets/js/lib/jquery.nanoscroller.min.js"></script>
