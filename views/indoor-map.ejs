@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
     <title>IPS2019</title>
 
@@ -39,8 +39,12 @@
     crossorigin=""></script>
     <script src="/map.js" ></script>
     <style>
+      html, body {
+    height: 100%;
+    width: 100vw;
+      }
         #map {
-  width: 1050px;
+  //width: 1050px;
   height: 600px;
   margin: 0 auto 10px auto;
   border: 1px solid #ccc;
@@ -597,10 +601,10 @@ L.control.attribution({
 // House: https://i.imgur.com/cenqiCf.jpg
 // Palace SVG (1280 x 806): https://dl.dropbox.com/s/yhrpnftsuis15z6/Topkapi_Palace_plan.svg
 // dimensions of the image
-// Test: https://www.dropbox.com/s/df3acu3dlkek1d1/LabCaoThang-Layout2.svg?dl=1
+// Test: https://imgur.com/LmAVDsg.png
 var w = 2000 * 2,
     h = 1100 * 2,
-    url = 'https://dl.dropbox.com/s/yhrpnftsuis15z6/Topkapi_Palace_plan.svg';
+    url = ' https://dl.dropbox.com/s/yhrpnftsuis15z6/Topkapi_Palace_plan.svg';
 
 // calculate the edges of the image, in coordinate space
 var southWest = map.unproject([0, h], map.getMaxZoom()-1);
