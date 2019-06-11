@@ -41,7 +41,7 @@
     <style>
         #map {
   width: 1050px;
-  height: 500px;
+  height: 600px;
   margin: 0 auto 10px auto;
   border: 1px solid #ccc;
   background: #252A2E;
@@ -554,19 +554,7 @@
     <div class="content-wrap">
         <div class="main">
             <div class="container-fluid">
-                <div class="row">
-					<div class="col-md-8">
-						<h2><span>Indoor Map</span></h2>
-					</div>
-					<div class="col-md-4">
-						<nav class="float-right">
-							<ol class="breadcrumb">
-								<li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
-								<li class="breadcrumb-item active" aria-current="page">Indoor Map</li>
-							</ol>
-						</nav>
-					</div>
-                </div>
+                
                 <!-- /# row -->
                 <section id="main-content">
                     <div class="row">
@@ -604,13 +592,14 @@ var map = L.map('map', {
 
 L.control.attribution({
   prefix: false
-}).addAttribution('HQ @ Business Inc').addTo(map);
+}).addAttribution('HT @ HCMUT Lab').addTo(map);
 
 // House: https://i.imgur.com/cenqiCf.jpg
 // Palace SVG (1280 x 806): https://dl.dropbox.com/s/yhrpnftsuis15z6/Topkapi_Palace_plan.svg
 // dimensions of the image
-var w = 1920 * 2,
-    h = 1000 * 2,
+// Test: https://www.dropbox.com/s/df3acu3dlkek1d1/LabCaoThang-Layout2.svg?dl=1
+var w = 2000 * 2,
+    h = 1100 * 2,
     url = 'https://dl.dropbox.com/s/yhrpnftsuis15z6/Topkapi_Palace_plan.svg';
 
 // calculate the edges of the image, in coordinate space
@@ -627,7 +616,7 @@ map.setMaxBounds(bounds);
 
 // pixel coords
 var m = {
-x: 1250, 
+x: 1280, 
 y: 850
 }
 //Add marker
