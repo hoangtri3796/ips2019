@@ -44,8 +44,8 @@
     width: 100vw;
       }
         #map {
-  width: 950px;
-  height: 500px;
+  width: 900px;
+  height: 400px;
   margin: 0 auto 10px auto;
   border: 1px solid #ccc;
   background: #252A2E;
@@ -588,7 +588,7 @@
 var map = L.map('map', {
   minZoom: 1,
   maxZoom: 4,
-  center: [3600, 2400],
+  center: [0, 0],
   zoom:1,
   crs: L.CRS.Simple,
   attributionControl: false
@@ -601,9 +601,8 @@ L.control.attribution({
 // House: https://i.imgur.com/cenqiCf.jpg
 // Palace SVG (1280 x 806): https://dl.dropbox.com/s/yhrpnftsuis15z6/Topkapi_Palace_plan.svg
 // dimensions of the image
-// Test: https://imgur.com/LmAVDsg.png
-var w = 2000 * 2,
-    h = 1000 * 2,
+var w = 1900 * 2,
+    h = 890 * 2,
     url = '../assets/img/LabCaoThang-Layout.svg';
 
 // calculate the edges of the image, in coordinate space
@@ -620,8 +619,8 @@ map.setMaxBounds(bounds);
 
 // pixel coords
 var m = {
-x: 1280, 
-y: 850
+x: 0 + 1450, 
+y: 0 + 2850
 }
 //Add marker
 var newMarkerGroup = new L.LayerGroup();
