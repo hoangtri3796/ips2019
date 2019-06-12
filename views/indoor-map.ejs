@@ -44,8 +44,8 @@
     width: 100vw;
       }
         #map {
-  width: 900px;
-  height: 550px;
+  width: 950px;
+  height: 500px;
   margin: 0 auto 10px auto;
   border: 1px solid #ccc;
   background: #252A2E;
@@ -588,7 +588,7 @@
 var map = L.map('map', {
   minZoom: 1,
   maxZoom: 4,
-  center: [0, 0],
+  center: [3600, 2400],
   zoom:1,
   crs: L.CRS.Simple,
   attributionControl: false
@@ -602,9 +602,9 @@ L.control.attribution({
 // Palace SVG (1280 x 806): https://dl.dropbox.com/s/yhrpnftsuis15z6/Topkapi_Palace_plan.svg
 // dimensions of the image
 // Test: https://imgur.com/LmAVDsg.png
-var w = 1900 * 2,
+var w = 2000 * 2,
     h = 1000 * 2,
-    url = '../assets/img/Topkapi_Palace_plan.svg';
+    url = '../assets/img/LabCaoThang-Layout.svg';
 
 // calculate the edges of the image, in coordinate space
 var southWest = map.unproject([0, h], map.getMaxZoom()-1);
