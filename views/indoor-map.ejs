@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
     <title>IPS2019</title>
-
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css"  data-require="leaflet@0.7.3" data-semver="0.7.3" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
-    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-    crossorigin=""/>
-
-    <!-- ================= Favicon ================== -->
+  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+  crossorigin=""/>
+    
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>    
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
+  <!-- ================= Favicon ================== -->
     <!-- Standard -->
     <link rel="shortcut icon" href="http://placehold.it/64.png/000/fff">
     <!-- Retina iPad Touch Icon-->
@@ -22,9 +24,9 @@
     <link rel="apple-touch-icon" sizes="72x72" href="http://placehold.it/72.png/000/fff">
     <!-- Standard iPhone Touch Icon-->
     <link rel="apple-touch-icon" sizes="57x57" href="http://placehold.it/57.png/000/fff">
+    <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css">
 
     <!-- Styles -->
-    <link href="assets/css/lib/vector-map/jqvmap.min.css" rel="stylesheet">
     <!--Themes Jquery Bar Rating-->
     <link href="assets/css/lib/font-awesome.min.css" rel="stylesheet">
     <link href="assets/css/lib/themify-icons.css" rel="stylesheet">
@@ -34,16 +36,16 @@
     <link href="assets/css/lib/helper.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <!-- Make sure you put this AFTER Leaflet's CSS -->
+
     <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
     integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
-    crossorigin=""></script>
-    <script src="/map.js" ></script>
+    crossorigin=""></script>    
     <style>
       html, body {
     height: 100%;
     width: 100vw;
       }
-        #map {
+        #image-map {
   width: 900px;
   height: 400px;
   margin: 0 auto 10px auto;
@@ -560,10 +562,10 @@
             <div class="container-fluid">
                 
                 <!-- /# row -->
-                <section id="main-content">
+                <section id="main-content"></section>
                     <div class="row">
                         <div class="col-lg-12">
-                            <div id="map"></div>
+                            <div id="image-map"></div>
                             <!-- /# card -->
                         </div>
                         <!-- /# column -->
@@ -580,75 +582,110 @@
             </div>
         </div>
     </div>
-    <script> 
-    // Using leaflet.js to pan and zoom a big image.
-// See also: http://kempe.net/blog/2014/06/14/leaflet-pan-zoom-image.html
-// Marker Pin: https://codepen.io/zachdunn/pen/wapEam
-// create the slippy map
-var map = L.map('map', {
-  minZoom: 1,
-  maxZoom: 4,
-  center: [0, 0],
-  zoom:1,
-  crs: L.CRS.Simple,
-  attributionControl: false
-});
-
-L.control.attribution({
-  prefix: false
-}).addAttribution('HT @ HCMUT Lab').addTo(map);
-
-// House: https://i.imgur.com/cenqiCf.jpg
-// Palace SVG (1280 x 806): https://dl.dropbox.com/s/yhrpnftsuis15z6/Topkapi_Palace_plan.svg
-// dimensions of the image
-var w = 1900 * 2,
-    h = 890 * 2,
-    url = '../assets/img/LabCaoThang-Layout.svg';
-
-// calculate the edges of the image, in coordinate space
-var southWest = map.unproject([0, h], map.getMaxZoom()-1);
-var northEast = map.unproject([w, 0], map.getMaxZoom()-1);
-var bounds = new L.LatLngBounds(southWest, northEast);
-
-// add the image overlay, 
-// so that it covers the entire map
-L.imageOverlay(url, bounds).addTo(map);
-
-// tell leaflet that the map is exactly as big as the image
-map.setMaxBounds(bounds);
-
-// pixel coords
-var m = {
-x: 0 + 1450, 
-y: 0 + 2850
-}
-//Add marker
-var newMarkerGroup = new L.LayerGroup();
-map.on('click', addMarker);
-var addedOne = false,
-    customPin = L.divIcon({
-    className: 'location-pin',
-    html: '<img src="https://static.robinpowered.com/roadshow/robin-avatar.png"><div class="pin"></div><div class="pulse"></div>',
-    iconSize: [30, 30],
-    iconAnchor: [18, 30]
+<script type="text/javascript">
+  var map = L.map('image-map', {
+    minZoom: 1,
+    maxZoom: 4,
+    center: [0, 0],
+    zoom:1,
+    crs: L.CRS.Simple,
+    attributionControl: false
   });
-function addMarker(e){
-// Add marker to map at click location; add popup window
-  if (addedOne) {
-    return;
+  
+  L.control.attribution({
+    prefix: false
+  }).addAttribution('HT @ HCMUT Lab').addTo(map);
+  
+  // House: https://i.imgur.com/cenqiCf.jpg
+  // Palace SVG (1280 x 806): https://dl.dropbox.com/s/yhrpnftsuis15z6/Topkapi_Palace_plan.svg
+  // dimensions of the image
+  var w = 1900 * 2,
+      h = 890 * 2,
+      url = '../assets/img/LabCaoThang-Layout.svg';
+  
+  // calculate the edges of the image, in coordinate space
+  var southWest = map.unproject([0, h], map.getMaxZoom()-1);
+  var northEast = map.unproject([w, 0], map.getMaxZoom()-1);
+  var bounds = new L.LatLngBounds(southWest, northEast);
+  
+  // add the image overlay, 
+  // so that it covers the entire map
+  L.imageOverlay(url, bounds).addTo(map);
+  
+  // tell leaflet that the map is exactly as big as the image
+  map.setMaxBounds(bounds);
+  var newMarkerGroup = new L.LayerGroup();
+
+  document.addEventListener('DOMContentLoaded', function() {
+   mqtt_init();
+}, false);
+  function mqtt_init(){
+  // Create a client instance
+  client = new Paho.MQTT.Client("postman.cloudmqtt.com", 34898,"myclientid_" + parseInt(Math.random() * 100, 10));
+  //Example client = new Paho.MQTT.Client("m11.cloudmqtt.com", 32903, "web_" + parseInt(Math.random() * 100, 10));
+
+  // set callback handlers
+  client.onConnectionLost = onConnectionLost;
+  client.onMessageArrived = onMessageArrived;
+  var options = {
+    timeout :3,
+    useSSL: true,
+    userName: "pqabugnq",
+    password: "cHTTED1dggfc",
+    onSuccess:onConnect,
+    onFailure:doFail
+  };
+
+  // connect the client
+  client.connect(options);
+
+  // called when the client connects
+  function onConnect() {
+    // Once a connection has been made, make a subscription and send a message.
+    console.log("onConnect");
+    client.subscribe("ips");
+  }
+
+  function doFail(e){
+    console.log(e);
+  }
+
+  // called when the client loses its connection
+  function onConnectionLost(responseObject) {
+    if (responseObject.errorCode !== 0) {
+      console.log("onConnectionLost:"+responseObject.errorMessage);
+    }
+  }
+
+  // called when a message arrives
+  function onMessageArrived(message) {
+    console.log("onMessageArrived:" + message.payloadString);
+    var msg = JSON.parse(message.payloadString);
+          x = (msg.x/9.05) * 4720 + 1440 ;
+          y = -(msg.y/4.2) * 2190 + 2850;
+          console.log(msg.x + "," + msg.y);
+          /*L.marker([x1, y1]).addTo(map)
+            .bindPopUp("<b>Tag</b><br> x : " + x + " , " + "y : " + y)
+            .openPopUp();*/
+            
+          var customPin = L.divIcon({
+            className: 'location-pin',
+            html: '<img src="https://static.robinpowered.com/roadshow/robin-avatar.png"><div class="pin"></div><div class="pulse"></div>',
+            iconSize: [30, 30],
+          iconAnchor: [18, 30]
+          });
+
+          var marker = L.marker(map.unproject([x, y], map.getMaxZoom()), {
+              icon: customPin
+            }).addTo(map);
+
+          marker.bindPopup("<b>Tag</b><br> x : " + x + " , " + "y : " + y); 
   }
 }
-// Lookup neighbors https://github.com/mapbox/leaflet-knn
-
-var marker = L.marker(map.unproject([m.x, m.y], map.getMaxZoom()), {
-    icon: customPin
-  }).addTo(map);
-// Add pop up for click
-marker.bindPopup("<b>Tag</b><br> x : " + m.x + " , " + "y : " + m.y);
-
 </script>
-    <script src="raphael-min.js"></script>
-    <script src="map.js"></script>
+    
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js" data-require="leaflet@0.7.3" data-semver="0.7.3"></script>
+    <script type="text/javascript" src="http://www.liedman.net/leaflet-realtime/dist/leaflet-realtime.js"></script>
     <!-- jquery vendor -->
     <script src="assets/js/lib/jquery.min.js"></script>
     <script src="assets/js/lib/jquery.nanoscroller.min.js"></script>
@@ -661,17 +698,6 @@ marker.bindPopup("<b>Tag</b><br> x : " + m.x + " , " + "y : " + m.y);
     
     <!-- bootstrap -->
 
-
-    <script src="assets/js/lib/vector-map/jquery.vmap.js"></script>
-    <!-- scripit init-->
-    <script src="assets/js/lib/vector-map/jquery.vmap.min.js"></script>
-    <!-- scripit init-->
-    <script src="assets/js/lib/vector-map/jquery.vmap.sampledata.js"></script>
-    <!-- scripit init-->
-    <script src="assets/js/lib/vector-map/country/jquery.vmap.world.js"></script>
-   
-    <script src="assets/js/lib/vector-map/vector.init.js"></script>
-    <!-- scripit init-->
 </body>
 </body>
 

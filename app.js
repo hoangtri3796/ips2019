@@ -63,7 +63,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //DB Config
 const db = require('./config/keys').mongoURI;
-
+//const db1 = require('./config/key1').mongoURI;
 //Connect to Mongo
 mongoose
   .connect(
@@ -72,6 +72,7 @@ mongoose
   )
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
+
 
   //connect flash
 app.use(flash());
@@ -83,7 +84,6 @@ app.use(function(req, res, next) {
   res.locals.error = req.flash('error');
   next();
 });
-
 
 
 // setup public folder
