@@ -6,10 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
     <title>IPS2019</title>
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css"  data-require="leaflet@0.7.3" data-semver="0.7.3" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
-  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-  crossorigin=""/>
+    
     
   <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>    
   <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
@@ -24,7 +21,7 @@
     <link rel="apple-touch-icon" sizes="72x72" href="http://placehold.it/72.png/000/fff">
     <!-- Standard iPhone Touch Icon-->
     <link rel="apple-touch-icon" sizes="57x57" href="http://placehold.it/57.png/000/fff">
-    <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css">
+  
 
     <!-- Styles -->
     <!--Themes Jquery Bar Rating-->
@@ -37,9 +34,6 @@
     <link href="assets/css/style.css" rel="stylesheet">
     <!-- Make sure you put this AFTER Leaflet's CSS -->
 
-    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
-    integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
-    crossorigin=""></script>    
     <style>
       html, body {
     height: 100%;
@@ -565,7 +559,7 @@
                 <section id="main-content"></section>
                     <div class="row">
                         <div class="col-lg-12">
-                            <div id="image-map"></div>
+                          <canvas id="myCanvas" width="1000" height="520" style="border:1px solid #d3d3d3;">
                             <!-- /# card -->
                         </div>
                         <!-- /# column -->
@@ -583,40 +577,13 @@
         </div>
     </div>
 <script type="text/javascript">
-  var map = L.map('image-map', {
-    minZoom: 1,
-    maxZoom: 4,
-    center: [0, 0],
-    zoom:1,
-    crs: L.CRS.Simple,
-    attributionControl: false
-  });
-  
-  L.control.attribution({
-    prefix: false
-  }).addAttribution('HT @ HCMUT Lab').addTo(map);
-  
-  // House: https://i.imgur.com/cenqiCf.jpg
-  // Palace SVG (1280 x 806): https://dl.dropbox.com/s/yhrpnftsuis15z6/Topkapi_Palace_plan.svg
-  // dimensions of the image
-  var w = 1900 * 2,
-      h = 890 * 2,
-      url = '../assets/img/LabCaoThang-Layout.svg';
-  
-  // calculate the edges of the image, in coordinate space
-  var southWest = map.unproject([0, h], map.getMaxZoom()-1);
-  var northEast = map.unproject([w, 0], map.getMaxZoom()-1);
-  var bounds = new L.LatLngBounds(southWest, northEast);
-  
-  // add the image overlay, 
-  // so that it covers the entire map
-  L.imageOverlay(url, bounds).addTo(map);
-  
-  // tell leaflet that the map is exactly as big as the image
-  map.setMaxBounds(bounds);
-  var newMarkerGroup = new L.LayerGroup();
-
-  document.addEventListener('DOMContentLoaded', function() {
+  window.onload = function() {
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+    var img = document.getElementById("scream");
+   ctx.drawImage(img, 0, 0);
+};
+  /*document.addEventListener('DOMContentLoaded', function() {
    mqtt_init();
 }, false);
   function mqtt_init(){
@@ -660,32 +627,18 @@
   // called when a message arrives
   function onMessageArrived(message) {
     console.log("onMessageArrived:" + message.payloadString);
+    
     var msg = JSON.parse(message.payloadString);
           x = (msg.x/9.05) * 4720 + 1440 ;
           y = -(msg.y/4.2) * 2190 + 2850;
           console.log(msg.x + "," + msg.y);
-          /*L.marker([x1, y1]).addTo(map)
-            .bindPopUp("<b>Tag</b><br> x : " + x + " , " + "y : " + y)
-            .openPopUp();*/
-            
-          var customPin = L.divIcon({
-            className: 'location-pin',
-            html: '<img src="https://static.robinpowered.com/roadshow/robin-avatar.png"><div class="pin"></div><div class="pulse"></div>',
-            iconSize: [30, 30],
-          iconAnchor: [18, 30]
-          });
+        
+          }
+        }*/
 
-          var marker = L.marker(map.unproject([x, y], map.getMaxZoom()), {
-              icon: customPin
-            }).addTo(map);
-
-          marker.bindPopup("<b>Tag</b><br> x : " + x + " , " + "y : " + y); 
-  }
-}
 </script>
     
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js" data-require="leaflet@0.7.3" data-semver="0.7.3"></script>
-    <script type="text/javascript" src="http://www.liedman.net/leaflet-realtime/dist/leaflet-realtime.js"></script>
+
     <!-- jquery vendor -->
     <script src="assets/js/lib/jquery.min.js"></script>
     <script src="assets/js/lib/jquery.nanoscroller.min.js"></script>
