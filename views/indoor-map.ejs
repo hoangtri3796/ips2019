@@ -559,7 +559,7 @@
                 <section id="main-content"></section>
                     <div class="row">
                         <div class="col-lg-12">
-                          <canvas id="myCanvas" width="900" height="430" style="border:1px solid #d3d3d3;">
+                          <canvas id="canvas" width="930" height="500" style="border:1px solid #d3d3d3;">
                             <!-- /# card -->
                         </div>
                         <!-- /# column -->
@@ -576,16 +576,31 @@
             </div>
         </div>
     </div>
-<script type="text/javascript">
-  window.onload = function() {
-    var canvas = document.getElementById("myCanvas");
-    var ctx = canvas.getContext("2d");
-    var img = new Image();
-        img.src ='../assets/img/LabCaoThang-Layout.svg';
-        img.onload = () => {
-        ctx.drawImage(img,15,160,1080,660, 0, 0,900,610);
-        };
-};
+<script>
+  
+  var canvas = document.getElementById("canvas");
+  var ctx = canvas.getContext("2d");
+  var img = new Image();   // Create new img element
+  img.addEventListener('load', function() {
+  // execute drawImage statements here
+  }, false);
+  img.src ='../assets/img/LabCaoThang-Layout.svg';
+      img.onload = () => {
+      ctx.drawImage(img,40,-50);
+      };
+  window.onload = function(){
+      var centerX = canvas.width / 2;
+      var centerY = canvas.height / 2;
+      var radius = 20;
+
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+      ctx.fillStyle = '#186ef7';
+      ctx.fill();
+      ctx.lineWidth = 5;
+      ctx.strokeStyle = '#e6ecf7';
+      ctx.stroke();
+    };
   /*document.addEventListener('DOMContentLoaded', function() {
    mqtt_init();
 }, false);
