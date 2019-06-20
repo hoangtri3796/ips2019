@@ -559,7 +559,7 @@
                 <section id="main-content"></section>
                     <div class="row">
                         <div class="col-lg-12">
-                          <canvas id="myCanvas" width="920" height="590" style="border:1px solid #d3d3d3;">
+                          <canvas id="myCanvas" width="900" height="430" style="border:1px solid #d3d3d3;">
                             <!-- /# card -->
                         </div>
                         <!-- /# column -->
@@ -580,8 +580,11 @@
   window.onload = function() {
     var canvas = document.getElementById("myCanvas");
     var ctx = canvas.getContext("2d");
-    var img = document.getElementById("scream");
-   ctx.drawImage(img, 0, 0);
+    var img = new Image();
+        img.src ='../assets/img/LabCaoThang-Layout.svg';
+        img.onload = () => {
+        ctx.drawImage(img,15,160,1080,650, 0, 0,900,610);
+        };
 };
   /*document.addEventListener('DOMContentLoaded', function() {
    mqtt_init();
