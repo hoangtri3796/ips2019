@@ -578,7 +578,7 @@
     </div>
 <script>
   
-  var canvas = document.getElementById("canvas");
+  /*var canvas = document.getElementById("canvas");
   var ctx = canvas.getContext("2d");
   var img = new Image();   // Create new img element
   img.addEventListener('load', function() {
@@ -600,8 +600,11 @@
       ctx.lineWidth = 5;
       ctx.strokeStyle = '#e6ecf7';
       ctx.stroke();
-    };
-  /*document.addEventListener('DOMContentLoaded', function() {
+    };*/
+  const fastcsv = require('fast-csv');
+  const fs = require("file-system");
+  const ws = fs.createWriteStream("output.csv");
+  document.addEventListener('DOMContentLoaded', function() {
    mqtt_init();
 }, false);
   function mqtt_init(){
@@ -650,9 +653,12 @@
           x = (msg.x/9.05) * 4720 + 1440 ;
           y = -(msg.y/4.2) * 2190 + 2850;
           console.log(msg.x + "," + msg.y);
-        
+          fastcsv
+            .write([[x,y]],{header : true})
+            .pipe(ws);
+
           }
-        }*/
+        }
 
 </script>
     
