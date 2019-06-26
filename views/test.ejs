@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,8 +10,7 @@
 
   <title>IPS2019</title>
 
-  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
@@ -639,28 +640,7 @@
     </div>
   </div>
   <script>
-    var xroom=9.05;
-    var yroom=4.2;
-    var xpixel=680;
-    var ypixel=320;
-    var xadd = 280;
-    var yadd = 380;
-    function insert_localtion(xcale, ycale) {
-      //insert into mongodb
-      $.ajax({
-        url: "localtion",
-        method: "GET",
-        data: {
-          id: "152a",
-          xcale: xcale,
-          ycale: ycale
-        },
-        contentType: "application/json",
-        success: function (response) {
-          console.log(response)
-        }
-      });
-    }
+
     /*var canvas = document.getElementById("canvas");
     var ctx = canvas.getContext("2d");
     var img = new Image();   // Create new img element
@@ -684,7 +664,9 @@
         ctx.strokeStyle = '#e6ecf7';
         ctx.stroke();
       };*/
-   
+    const fastcsv = require('fast-csv');
+    const fs = require("file-system");
+    const ws = fs.createWriteStream("output.csv");
     document.addEventListener('DOMContentLoaded', function () {
       mqtt_init();
     }, false);
@@ -731,64 +713,30 @@
         console.log("onMessageArrived:" + message.payloadString);
 
         var msg = JSON.parse(message.payloadString);
-
-        // insert to mongodb
-        insert_localtion(msg.x, msg.y);
         x = (msg.x / 9.05) * 4720 + 1440;
         y = -(msg.y / 4.2) * 2190 + 2850;
         console.log(msg.x + "," + msg.y);
-       
+        fastcsv
+          .write([[x, y]], { header: true })
+          .pipe(ws);
+
       }
     }
 
-</script>
+  </script>
 
   <script>
-
     var a = new Image();
+    a.src = "img/110b3-3.png";
     var canvas = document.getElementById("myCanvas");
     var ctx = canvas.getContext("2d");
-    var tag_xcale, tag_ycale
 
-    function init() {
-      a.src = "/assets/img/LabCaoThang-Layout.svg";
-      window.requestAnimationFrame(draw);
-    }
-
-    function drawBall() {
-      ctx.beginPath();
-      ctx.arc(
-        (tag_xcale/xroom)*xpixel+xadd,
-        -(tag_ycale/yroom)*ypixel+yadd,
-        10,
-        0,
-        2 * Math.PI
-      );
-      ctx.fillStyle = "#186ef7";
-      ctx.fill();
-      ctx.lineWidth = 3;
-      ctx.strokeStyle = '#e6ecf7';
-      ctx.stroke();
-      ctx.closePath();
-    }
-
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    $(document).ready(() => {
+      var canvas = document.getElementById("myCanvas");
+      var ctx = canvas.getContext("2d");
       ctx.drawImage(a, 0, 0, canvas.width, canvas.height);
-      drawBall();
-      $.ajax({
-        url: "product",
-        method: "POST",
-        contentType: "application/json",
-        success: function (response) {
-          tag_xcale = response.xcale;
-          tag_ycale = response.ycale;
-        }
-      });
-      window.requestAnimationFrame(draw);
-    }
-    init();
-</script>
+    });
+  </script>
 
   <!-- jquery vendor -->
   <script src="assets/js/lib/jquery.min.js"></script>

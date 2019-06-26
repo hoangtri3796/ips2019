@@ -74,11 +74,11 @@ mongoose
   .catch(err => console.log(err));
 
 
-  //connect flash
+//connect flash
 app.use(flash());
 
 // Global variables
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg = req.flash('error_msg');
   res.locals.error = req.flash('error');
@@ -94,12 +94,14 @@ app.use(express.static("public"));
 
 app.use("/", require("./routes/index.js"));
 app.use("/users", require("./routes/users.js"));
-app.use("*",  require("./routes/404"));
+app.use("/localtion", require("./routes/localtion.js"))
+app.use("/product", require("./routes/product.js"))
+app.use("*", require("./routes/404"));
 //app.use("/dashboarrd", require("./routes/dashboard.js"));
 
 const PORT = process.env.PORT || 3000;
 
 server.listen(
-  PORT,  
+  PORT,
   console.log("Server is running at 3000")
 );
