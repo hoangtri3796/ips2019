@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const localtion = require("../models/localtion");
-const user = require("../models/user");
+//const user = require("../models/user");
 
 router.get("/", (req, res) => {
     let id = req.query.id ;

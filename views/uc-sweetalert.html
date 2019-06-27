@@ -374,8 +374,7 @@
                             <!-- /# card -->
                         </div>
                         <!-- /# column -->
-
-
+                       
                         <div class="col-lg-3">
                             <div class="card">
                                 <div class="card-title">
@@ -627,3 +626,94 @@
 </body>
 
 </html>
+
+<div class="silk-customizer">
+        <button class="customizer-toggle bg-primary" (click)="customizerFunction()">
+        <i class="fa fa-cogs fa-lg"></i>
+        </button>
+        <div class="settings-panel">
+           <mat-card-content class="theme-options">
+              <div class="form-check">
+                 <span class="mb-2 d-block"><strong>Config Layout and Design</strong></span>
+              </div>
+              <div class="form-check">
+                 <label class="form-check-label">
+                 <input type="checkbox" class="form-check-input" [(ngModel)]="horizontalMenu">
+                 Horizontal Menu
+                 </label>
+              </div>
+              <div class="form-check">
+                 <label class="form-check-label">
+                 <input type="checkbox" class="form-check-input" [(ngModel)]="dark">
+                 Dark Theme
+                 </label>
+              </div>
+              <div class="form-check boxed-layout-md">
+                 <label class="form-check-label">
+                 <input type="checkbox" class="form-check-input" [(ngModel)]="boxed">
+                 Boxed
+                 </label>
+              </div>
+              <div class="form-check opt-mini-side">
+                 <label class="form-check-label">
+                 <input type="checkbox" class="form-check-input" [(ngModel)]="collapseSidebar" (change)="compactSidebar = false">
+                 Minimize Sidebar
+                 </label>
+              </div>
+              <div class="form-check">
+                 <label class="form-check-label">
+                 <input type="checkbox" class="form-check-input" (change)="myroot = (myroot == 'rtl' ? 'ltr' : 'rtl')">
+                 RTL Support
+                 </label>
+              </div>
+              <div class="form-check theme-color color-header">
+                 <span class="mb-2 d-block"><strong>Header Color</strong></span>
+                 <div class="mb-1">
+                    <a href="javascript:void(0)" (click)="headerSkinColorFunction('header-default')"><i class=" text-success fa fa-circle fa-lg def" aria-hidden="true"></i>
+                    Default</a>
+                 </div>
+                 <div class="mb-1">
+                    <a href="javascript:void(0)" (click)="headerSkinColorFunction('header-green')"><i class=" text-success fa fa-circle fa-lg" aria-hidden="true"></i>
+                    Green</a>
+                 </div>
+                 <div class="mb-1">
+                    <a href="javascript:void(0)" (click)="headerSkinColorFunction('header-yellow')"><i class="text-warning fa fa-circle fa-lg" aria-hidden="true"></i>
+                    Yellow</a>
+                 </div>
+                 <div class="mb-1">
+                    <a href="javascript:void(0)" (click)="headerSkinColorFunction('header-red')"><i class="text-danger fa fa-circle fa-lg" aria-hidden="true"></i>
+                    Red</a>
+                 </div>
+              </div>
+              <div class="form-check theme-color color-side">
+                  <span class="mb-2 d-block"><strong><span class="opt-sidebar">Sidebar Color</span><span class="opt-hori">Horizontal Menu</span> </strong></span>
+                 <div class="mb-1">
+                    <a href="javascript:void(0)" (click)="sidebarSkinColorFunction('sidebar-default')"><i class="def text-success fa fa-circle fa-lg" aria-hidden="true"></i>
+                    Default</a>
+                 </div>
+                 <div class="mb-1">
+                    <a href="javascript:void(0)" (click)="sidebarSkinColorFunction('sidebar-green')"><i class=" text-success fa fa-circle fa-lg" aria-hidden="true"></i>
+                    Green</a>
+                 </div>
+                 <div class="mb-1">
+                    <a href="javascript:void(0)" (click)="sidebarSkinColorFunction('sidebar-yellow')"><i class="text-warning fa fa-circle fa-lg" aria-hidden="true"></i>
+                    Yellow</a>
+                 </div>
+                 <div class="mb-1">
+                    <a href="javascript:void(0)" (click)="sidebarSkinColorFunction('sidebar-red')"><i class="text-danger fa fa-circle fa-lg" aria-hidden="true"></i>
+                    Red</a>
+                 </div>
+                 <div class="mb-1">
+                    <a href="javascript:void(0)" (click)="sidebarSkinColorFunction('sidebar-blue')"><i class="text-primary fa fa-circle fa-lg" aria-hidden="true"></i>
+                    Blue</a>
+                 </div>
+              </div>
+              <div class="form-group pb-4">
+                 <label for="exampleSelect1">Translate</label>
+                 <select class="form-control" id="exampleSelect1" [(ngModel)]="currentLang" #langSelect="ngModel" (ngModelChange)="translate.use(currentLang)">
+                 <option *ngFor="let lang of translate.getLangs()" [value]="lang">{{ lang }}</option>
+                 </select>
+              </div>
+           </mat-card-content>
+        </div>
+     </div>

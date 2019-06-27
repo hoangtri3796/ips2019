@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -36,7 +37,7 @@
   <link href="assets/css/lib/helper.css" rel="stylesheet">
   <link href="assets/css/style.css" rel="stylesheet">
   <!-- Make sure you put this AFTER Leaflet's CSS -->
-
+  <script src="https://d3js.org/d3.v4.js"></script>
   <style>
     html,
     body {
@@ -350,96 +351,159 @@
         transform: translateY(0) rotate(0deg);
       }
     }
+    * {
+  box-sizing: border-box;
+}
+
+/* Create two unequal columns that floats next to each other */
+.column {
+  float: left;
+}
+
+.left {
+  width: 70%;
+}
+
+.right {
+  width: 30%;
+  padding-right: 20px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+* {
+  box-sizing: border-box;
+}
+.file-input {
+  display: inline-block;
+  text-align: left;
+  background: #fff;
+  padding: 16px;
+  width: 450px;
+  position: relative;
+  border-radius: 3px;
+}
+
+.file-input > [type='file'] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.file-input > .button {
+  display: inline-block;
+  cursor: pointer;
+  background: #eee;
+  padding: 8px 16px;
+  border-radius: 2px;
+  margin-right: 8px;
+}
+
+.file-input:hover > .button {
+  background: dodgerblue;
+  color: white;
+}
+
+.file-input > .label {
+  color: #333;
+  white-space: nowrap;
+  opacity: .3;
+}
+
+.file-input.-chosen > .label {
+  opacity: 1;
+}
   </style>
 </head>
 
 <body>
-  <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
-    <div class="nano">
-      <div class="nano-content">
-        <ul>
-          <div class="logo"><a href="https://uwb.herokuapp.com">
-              <!-- <img src="assets/images/logo.png" alt="" /> --><span>IPS2019</span></a></div>
-          <li class="label">Main</li>
-          <li><a class="sidebar-sub-toggle"><i class="ti-home"></i> Dashboard <span class="badge badge-primary">1</span>
-              <span class="sidebar-collapse-icon ti-angle-down"></span></a>
-            <ul>
-              <li><a href="/dashboard">Dashboard</a></li>
-            </ul>
-          </li>
-
-          <li class="label">Apps</li>
-          <li><a class="sidebar-sub-toggle"><i class="ti-map"></i> Maps <span
-                class="sidebar-collapse-icon ti-angle-down"></span></a>
-            <ul>
-              <li><a href="/indoor-map">Indoor Map</a></li>
-              <li><a href="/vector-map">Vector Map</a></li>
-            </ul>
-          </li>
-          <li><a class="sidebar-sub-toggle"><i class="ti-bar-chart-alt"></i> Charts <span
-                class="sidebar-collapse-icon ti-angle-down"></span></a>
-            <ul>
-              <li><a href="chart-flot.ejs">Flot</a></li>
-              <li><a href="chart-morris.ejs">Morris</a></li>
-              <li><a href="chartjs.ejs">Chartjs</a></li>
-              <li><a href="chartist.ejs">Chartist</a></li>
-              <li><a href="chart-peity.ejs">Peity</a></li>
-              <li><a href="chart-sparkline.ejs">Sparkle</a></li>
-              <li><a href="chart-knob.ejs">Knob</a></li>
-            </ul>
-          </li>
-          <li><a href="app-event-calender.ejs"><i class="ti-calendar"></i> Calender </a></li>
-          <li class="label">Features</li>
-          <li><a class="sidebar-sub-toggle"><i class="ti-panel"></i> Components <span
-                class="sidebar-collapse-icon ti-angle-down"></span></a>
-            <ul>
-              <li><a href="uc-calendar.ejs">Calendar</a></li>
-              <li><a href="uc-weather.ejs">Weather</a></li>
-              <li><a href="uc-datamap.ejs">Datamap</a></li>
-              <li><a href="uc-todo-list.ejs">To do</a></li>
-            </ul>
-          </li>
-          <li><a class="sidebar-sub-toggle"><i class="ti-layout-grid4-alt"></i> Table <span
-                class="sidebar-collapse-icon ti-angle-down"></span></a>
-            <ul>
-              <li><a href="table-basic.ejs">Basic</a></li>
-
-              <li><a href="table-export.ejs">Datatable Export</a></li>
-              <li><a href="table-row-select.ejs">Datatable Row Select</a></li>
-              <li><a href="table-jsgrid.ejs">Editable </a></li>
-            </ul>
-          </li>
-          <li class="label">Form</li>
-          <li><a href="form-basic.ejs"><i class="ti-view-list-alt"></i> Basic Form </a></li>
-          <li class="label">Extra</li>
-          <li><a class="sidebar-sub-toggle"><i class="ti-target"></i> Pages <span
-                class="sidebar-collapse-icon ti-angle-down"></span></a>
-            <ul>
-              <li><a href="https://uwb.herokuapp.com/users/login">Login</a></li>
-              <li><a href="https://uwb.herokuapp.com/users/register">Register</a></li>
-              <li><a href="page-reset-password.ejs">Forgot password</a></li>
-            </ul>
-          </li>
-          <li><a href="../documentation/index.ejs"><i class="ti-file"></i> Documentation</a></li>
-          <li><a href="/users/logout"><i class="ti-close"></i> Log out</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
 
   <!-- /# sidebar -->
+  <div class="sidebar  sidebar-shrink sidebar-gestures sidebar-hide-to-small">
+    <div class="nano">
+        <div class="nano-content">
+            <ul>
+                <div class="logo"><a href="https://uwb.herokuapp.com"><!-- <img src="assets/images/logo.png" alt="" /> --><span>IPS2019</span></a></div>
+                <li class="label">Main</li>
+                <li><a class="sidebar-sub-toggle"><i class="ti-home"></i> Dashboard <span class="badge badge-primary">1</span> <span class="sidebar-collapse-icon ti-angle-down"></span></a>
+                    <ul>
+                        <li><a href="/dashboard">Dashboard</a></li>
+                    </ul>
+                </li>
 
-  <div class="header">
+                <li class="label">Apps</li>
+                <li><a class="sidebar-sub-toggle"><i class="ti-map"></i> Maps <span class="sidebar-collapse-icon ti-angle-down"></span></a>
+                    <ul>
+                        <li><a href="/indoor-map">Indoor Map</a></li>
+                        <li><a href="/vector-map">Vector Map</a></li>
+                    </ul>
+                </li>
+                <li><a class="sidebar-sub-toggle"><i class="ti-bar-chart-alt"></i>  Charts  <span class="sidebar-collapse-icon ti-angle-down"></span></a>
+                    <ul>
+                        <li><a href="/chart-flot">Flot</a></li>
+                        <li><a href="/chart-morris">Morris</a></li>
+                        <li><a href="/chartjs">Chartjs</a></li>
+                        <li><a href="/chartist">Chartist</a></li>
+                        <li><a href="/chart-peity">Peity</a></li>
+                        <li><a href="/chart-sparkline">Sparkle</a></li>
+                        <li><a href="/chart-knob">Knob</a></li>
+                    </ul>
+                </li>
+                <li><a href="/app-event-calender"><i class="ti-calendar"></i> Calender </a></li>
+                <li class="label">Features</li>
+                <li><a class="sidebar-sub-toggle"><i class="ti-panel"></i> Components <span class="sidebar-collapse-icon ti-angle-down"></span></a>
+                    <ul>
+                        <li><a href="uc-calendar.ejs">Calendar</a></li>
+                        <li><a href="uc-weather.ejs">Weather</a></li>
+                        <li><a href="uc-datamap.ejs">Datamap</a></li>
+                        <li><a href="uc-todo-list.ejs">To do</a></li>
+                    </ul>
+                </li>
+                <li><a class="sidebar-sub-toggle"><i class="ti-layout-grid4-alt"></i> Table <span class="sidebar-collapse-icon ti-angle-down"></span></a>
+                    <ul>
+                        <li><a href="table-basic.ejs">Basic</a></li>
+
+                        <li><a href="table-export.ejs">Datatable Export</a></li>
+                        <li><a href="table-row-select.ejs">Datatable Row Select</a></li>
+                        <li><a href="table-jsgrid.ejs">Editable </a></li>
+                    </ul>
+                </li>
+                <li class="label">Form</li>
+                <li><a href="form-basic.ejs"><i class="ti-view-list-alt"></i> Basic Form </a></li>
+                <li class="label">Extra</li>
+                <li><a class="sidebar-sub-toggle"><i class="ti-target"></i> Pages <span class="sidebar-collapse-icon ti-angle-down"></span></a>
+                    <ul>
+                        <li><a href="https://uwb.herokuapp.com/users/login">Login</a></li>
+                        <li><a href="https://uwb.herokuapp.com/users/register">Register</a></li>
+                        <li><a href="page-reset-password.ejs">Forgot password</a></li>
+                    </ul>
+                </li>
+                <li><a href="../documentation/index.ejs"><i class="ti-file"></i> Documentation</a></li>
+                <li><a href="/users/logout"><i class="ti-close"></i> Log out</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+  <div class="header" >
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg-12">
           <div class="float-left">
             <div class="hamburger sidebar-toggle">
-              <span class="line"></span>
-              <span class="line"></span>
-              <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
             </div>
-          </div>
+        </div>
           <div class="float-right">
             <div class="dropdown dib">
               <div class="header-icon" data-toggle="dropdown">
@@ -618,14 +682,128 @@
       <div class="container-fluid">
 
         <!-- /# row -->
-        <section id="main-content"></section>
+        <section id="main-content">
         <div class="row">
-          <div class="col-lg-12">
-            <canvas id="myCanvas" width="930" height="500" style="border:1px solid #d3d3d3;">
-              <!-- /# card -->
+          
+          <div class="column left">
+            <canvas id="myCanvas"  width="890" height="500" style="border:5px solid #d3d3d3;">
+          </div>   
+          <div class ="column right">
+            <div class="card">
+              <div class="card-body p-b-0">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs customtab2" role="tablist">
+                  <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home7" role="tab"><span class="hidden-sm-up"><i class="ti-anchor"></i></span> <span class="hidden-xs-down">Anchor</span></a> </li>
+                  <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile7" role="tab"><span class="hidden-sm-up"><i class="ti-tag"></i></span> <span class="hidden-xs-down">Tag</span></a> </li>
+                  <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages7" role="tab"><span class="hidden-sm-up"><i class="ti-server"></i></span> <span class="hidden-xs-down">Gateway</span></a> </li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                  <div class="tab-pane active" id="home7" role="tabpanel">
+                    <div class="toastr" style="padding-top:20px">
+                      <div class="row" >
+                        <div class="col-6">
+                          <h5>DWM 8305</h5>
+                          <p><small><i class="fa fa-circle text-success"></i></small>Online</p>
+                          <small>x: 3.43 , y: 5.43 , z: 1.63</small>
+                        </div>
+                        <div class="col-6">
+                          <button class="btn btn-success btn sweet-success">Edit</button>
+                          <button class="btn btn-info btn sweet-ajax">Find</button>
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row" >
+                          <div class="col-6">
+                            <h5>DWM 4164</h5>
+                            <p><small><i class="fa fa-circle text-success"></i></small>Online</p>
+                            <small>x: 5.23 , y: 3.42 , z: 1.63</small>
+                          </div>
+                          <div class="col-6">
+                            <button class="btn btn-success btn sweet-success">Edit</button>
+                            <button class="btn btn-info btn sweet-ajax">Find</button>
+                          </div>
+                      </div>
+                      <hr>
+                      <div class="row" >
+                          <div class="col-6">
+                            <h5>DWM 0384</h5>
+                            <p><small><i class="fa fa-circle text-success"></i></small>Online</p>
+                            <small>x: 4.55 , y: 2.74 , z: 1.63</small>
+                          </div>
+                          <div class="col-6">
+                            <button class="btn btn-success btn sweet-success">Edit</button>
+                            <button class="btn btn-info btn sweet-ajax">Find</button>
+                          </div>
+                      </div>
+                      <hr>
+                      <div class="row" >
+                          <div class="col-6">
+                            <h5>DWM 0296</h5>
+                            <p><small><i class="fa fa-circle text-success"></i></small>Online</p>
+                            <small>x: 6.32 , y: 7.23 , z: 1.63</small>
+                          </div>
+                          <div class="col-6">
+                            <button class="btn btn-success btn sweet-success">Edit</button>
+                            <button class="btn btn-info btn sweet-ajax">Find</button>
+                          </div>
+                      </div>
+                    </div>
+                    <div class='file-input'>
+                        <input type='file'>
+                        <span class='button'>Upload Map</span>
+                        <span class='label' data-js-label>No file selected</label>
+                      </div>
+                  </div>
+                  
+                  <div class="tab-pane  p-20" id="profile7" role="tabpanel">
+                      <div class="row" >
+                          <div class="col-6">
+                            <h5>DWM 152A</h5>
+                            <p><small><i class="fa fa-circle text-success"></i></small>Online</p>
+                            <small>x: 2.34 , y: 4.64 , z: 1.32</small>
+                          </div>
+                          <div class="col-6">
+                            <button class="btn btn-success btn sweet-success">Edit</button>
+                            <button class="btn btn-info btn sweet-ajax">Find</button>
+                          </div>
+                        </div>
+                  </div>
+                  <div class="tab-pane p-20" id="messages7" role="tabpanel">
+                      <div class="row" >
+                          <div class="col-6">
+                            <h5>Gateway 1</h5>
+                            <p><small><i class="fa fa-circle text-success"></i></small>Online</p>
+                          </div>
+                          <div class="col-6">
+                            <button class="btn btn-success btn sweet-success">Edit</button>
+                            <button class="btn btn-info btn sweet-auto">Stop</button>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <code style="padding-left: 20px">Data is transmitting</code>
+                      </div>
+                      <hr>
+                      <div class="row" >
+                          <div class="col-6">
+                            <h5>Gateway 2</h5>
+                            <p><small><i class="fa fa-circle text-error"></i></small>Offline</p>
+                          </div>
+                          <div class="col-6">
+                            <button class="btn btn-success btn sweet-success">Edit</button>
+                            <button class="btn btn-info btn sweet-auto">Stop</button>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <code style="padding-left: 20px">Gateway is offline now</code>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           </div>
           <!-- /# column -->
-        </div>
         <!-- /# row -->
         <div class="row">
           <div class="col-lg-12">
@@ -637,14 +815,8 @@
         </section>
       </div>
     </div>
-  </div>
   <script>
-    var xroom=9.05;
-    var yroom=4.2;
-    var xpixel=680;
-    var ypixel=320;
-    var xadd = 280;
-    var yadd = 380;
+    
     function insert_localtion(xcale, ycale) {
       //insert into mongodb
       $.ajax({
@@ -734,22 +906,21 @@
 
         // insert to mongodb
         insert_localtion(msg.x, msg.y);
-        x = (msg.x / 9.05) * 4720 + 1440;
-        y = -(msg.y / 4.2) * 2190 + 2850;
-        console.log(msg.x + "," + msg.y);
+      
+       // console.log(msg.x + "," + msg.y);
        
       }
     }
-
-</script>
-
-  <script>
-
     var a = new Image();
     var canvas = document.getElementById("myCanvas");
     var ctx = canvas.getContext("2d");
     var tag_xcale, tag_ycale
-
+    var xroom=9.05;
+    var yroom=4.2;
+    var xpixel=670;
+    var ypixel=310;
+    var xadd = 120;
+    var yadd = 395;
     function init() {
       a.src = "/assets/img/LabCaoThang-Layout.svg";
       window.requestAnimationFrame(draw);
@@ -789,7 +960,27 @@
     }
     init();
 </script>
+<script>
+var inputs = document.querySelectorAll('.file-input')
 
+for (var i = 0, len = inputs.length; i < len; i++) {
+  customInput(inputs[i])
+}
+
+function customInput (el) {
+  const fileInput = el.querySelector('[type="file"]')
+  const label = el.querySelector('[data-js-label]')
+  
+  fileInput.onchange =
+  fileInput.onmouseout = function () {
+    if (!fileInput.value) return
+    
+    var value = fileInput.value.replace(/^.*[\\\/]/, '')
+    el.className += ' -chosen'
+    label.innerText = value
+  }
+}
+</script>
   <!-- jquery vendor -->
   <script src="assets/js/lib/jquery.min.js"></script>
   <script src="assets/js/lib/jquery.nanoscroller.min.js"></script>
@@ -799,11 +990,9 @@
   <!-- sidebar -->
   <!-- scripit init-->
   <script src="assets/js/lib/bootstrap.min.js"></script>
-  <script src="assets/js/scripts.js"></script>
 
   <!-- bootstrap -->
 
-</body>
 </body>
 
 </html>
