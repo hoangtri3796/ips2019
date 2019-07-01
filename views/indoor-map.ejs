@@ -1021,33 +1021,58 @@ input:checked + label {
       </div>
     </div>
     <script src="socket.io/socket.io.js"></script>
-    <script>
-  
-      function classLocation(xcale, ycale) {
-        this.xcale = xcale;
-        this.ycale = ycale;
-        return this;
-      }
-  
-      var vitri = new classLocation();
-      vitri.xcale = 3;
-      vitri.ycale = 3;
-      const socket = io("http://localhost:3000");
+  <script>
 
-      var vitri1 = new classLocation();
-      vitri1.xcale = 2;
-      vitri1.ycale = 2;
-        
-      function insert_localtion(xcale, ycale) {
-        //insert into mongodb
-        vitri.xcale = xcale;
-        vitri.ycale = ycale;
-        socket.emit('data-send', vitri)
-      }
-      function insert_location(xscale, yscale){
-        vitri1.xcale = xscale;
-        vitri1.ycale = yscale;
-      }
+    function classLocation(xcale, ycale) {
+      this.xcale = xcale;
+      this.ycale = ycale;
+      return this;
+    }
+
+    var vitri = new classLocation();
+    vitri.xcale = 3;
+    vitri.ycale = 3;
+    const socket = io("http://localhost:3000");
+
+    /*var vitri1 = new classLocation();
+    vitri1.xcale = 2;
+    vitri1.ycale = 2;*/
+    function insert_localtion(xcale, ycale) {
+      //insert into mongodb
+      vitri.xcale = xcale;
+      vitri.ycale = ycale;
+      socket.emit('data-send', vitri)
+    }
+    
+    /*function insert_location(xscale, yscale){
+      vitri1.xcale = xscale;
+      vitri1.ycale = yscale;
+      socket.emit("data-send",vitri1)
+    }*/
+    /*var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+    var img = new Image();   // Create new img element
+    img.addEventListener('load', function() {
+    // execute drawImage statements here
+    }, false);
+    img.src ='../assets/img/LabCaoThang-Layout.svg';
+        img.onload = () => {
+        ctx.drawImage(img,40,-50);
+        };
+    window.onload = function(){
+        var centerX = canvas.width / 2;
+        var centerY = canvas.height / 2;
+        var radius = 20;
+  
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+        ctx.fillStyle = '#186ef7';
+        ctx.fill();
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = '#e6ecf7';
+        ctx.stroke();
+      };*/
+    
     document.addEventListener('DOMContentLoaded', function () {
       mqtt_init();
     }, false);
@@ -1094,27 +1119,31 @@ input:checked + label {
         console.log("onMessageArrived:" + message.payloadString);
 
         var msg = JSON.parse(message.payloadString);
-        if ((msg.tag) == "152A"){
-        insert_localtion(msg.x, msg.y);
+        // insert to mongodb
+        if ((msg.Tag) == "152A"){
+          insert_localtion(msg.x, msg.y);
         }
-        if ((msg.tag) == "OEA3"){
-        insert_location(msg.x, msg.y);
-       // console.log(msg.x + "," + msg.y);
-        }
+        /*if ((msg.tag) == "0EA3"){
+          insert_location(msg.x, msg.y);
+        }*/
       }
     }
+
 </script>
-<script>
+  <script>
+
     var a = new Image();
     var canvas = document.getElementById("myCanvas");
     var ctx = canvas.getContext("2d");
-    var tag_xcale, tag_ycale
-    var xroom=9.05;
-    var yroom=4.2;
-    var xpixel=670;
-    var ypixel=310;
+    var xroom=8.57;
+    var yroom=3.83;
+    var xpixel=650;
+    var ypixel=290;
     var xadd = 120;
     var yadd = 395;
+    var tag_xcale, tag_ycale
+    //var tag_xscale, tag_yscale
+
     function init() {
       a.src = "/assets/img/LabCaoThang-Layout.svg";
       window.requestAnimationFrame(draw);
@@ -1122,53 +1151,45 @@ input:checked + label {
 
     function drawBall() {
       ctx.beginPath();
-      ctx.arc(543,123,
-        //(tag_xcale/xroom)*xpixel+xadd,
-        //-(tag_ycale/yroom)*ypixel+yadd,
-        10,
+      ctx.arc(
+        (tag_xcale/xroom)*xpixel+xadd,
+        -(tag_ycale/yroom)*ypixel+yadd,
+        8,
         0,
         2 * Math.PI
       );
-      ctx.fillStyle = "#186ef7";
+      ctx.fillStyle = "#337cf2";
       ctx.fill();
-      ctx.lineWidth = 3;
-      ctx.strokeStyle = '#e6ecf7';
-      ctx.stroke();
+      ctx.closePath();
+    }
+    function drawBall2() {
+      ctx.beginPath();
+      ctx.arc(
+        (tag_xscale/xroom)*xpixel+xadd,
+        -(tag_yscale/yroom)*ypixel+yadd,
+        8,
+        0,
+        2 * Math.PI
+      );
+      ctx.fillStyle = "#07b349";
+      ctx.fill();
       ctx.closePath();
     }
 
-    function drawBall2(){
-      ctx.beginPath();
-      ctx.arc(343,233,
-        //(tag_xcale/xroom)*xpixel+xadd,
-        //-(tag_ycale/yroom)*ypixel+yadd,
-        10,
-        0,
-        2 * Math.PI
-      );
-      ctx.fillStyle = "#e64956";
-      ctx.fill();
-      ctx.lineWidth = 3;
-      ctx.strokeStyle = '#e6ecf7';
-      ctx.stroke();
-      ctx.closePath();
-    }
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(a, 0, 0, canvas.width, canvas.height);
       drawBall();
-      drawBall2();
-      $.ajax({
-        url: "product",
-        method: "POST",
-        contentType: "application/json",
-        success: function (response) {
-          tag_xcale = response.xcale;
-          tag_ycale = response.ycale;
-        }
-      });
+      //drawBall2();
+      socket.on('data-send-from-server', (data) => {
+        tag_xcale = data.xcale;
+        tag_ycale = data.ycale;
+        tag_xscale = data.xscale;
+        tag_yscale = data.yscale;
+      })
       window.requestAnimationFrame(draw);
     }
+
     init();
 </script>
 <script>

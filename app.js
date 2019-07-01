@@ -5,6 +5,7 @@ const session = require('express-session');
 const passport = require('passport');
 const flash = require('connect-flash');
 const mongoose = require("mongoose");
+const io = require("socket.io")(server);
 
 
 //EJS
@@ -53,6 +54,13 @@ app.use(
   })
 );
 
+
+//-----------------socket io -------------------------------//
+io.on("connection", (socket) => {
+  socket.on("data-send", (data)=>{
+    io.sockets.emit("data-send-from-server",data);
+  })
+})
 //-----------passport config------------------
 app.use(passport.initialize());
 app.use(passport.session());
