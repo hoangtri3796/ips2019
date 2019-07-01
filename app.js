@@ -60,6 +60,9 @@ io.on("connection", (socket) => {
   socket.on("data-send", (data)=>{
     io.sockets.emit("data-send-from-server",data);
   })
+  socket.on("data-send1", (data) =>{
+    io.sockets.emit("data-send-from-server1",data)
+  })
 })
 //-----------passport config------------------
 app.use(passport.initialize());

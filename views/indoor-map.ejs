@@ -1028,27 +1028,32 @@ input:checked + label {
       this.ycale = ycale;
       return this;
     }
-
+    function classLocation1(xscale, yscale) {
+      this.xscale = xscale;
+      this.yscale = yscale;
+      return this;
+    }
+    
     var vitri = new classLocation();
     vitri.xcale = 3;
     vitri.ycale = 3;
     const socket = io("http://localhost:3000");
 
-    /*var vitri1 = new classLocation();
-    vitri1.xcale = 2;
-    vitri1.ycale = 2;*/
+    var vitri1 = new classLocation();
+    vitri1.xscale = 2;
+    vitri1.yscale = 2;
+    
     function insert_localtion(xcale, ycale) {
-      //insert into mongodb
       vitri.xcale = xcale;
       vitri.ycale = ycale;
       socket.emit('data-send', vitri)
     }
     
-    /*function insert_location(xscale, yscale){
-      vitri1.xcale = xscale;
-      vitri1.ycale = yscale;
-      socket.emit("data-send",vitri1)
-    }*/
+    function insert_location(xscale, yscale){
+      vitri1.xscale = xscale;
+      vitri1.yscale = yscale;
+      socket.emit("data-send1",vitri1)
+    }
     /*var canvas = document.getElementById("canvas");
     var ctx = canvas.getContext("2d");
     var img = new Image();   // Create new img element
@@ -1123,9 +1128,10 @@ input:checked + label {
         if ((msg.Tag) == "152A"){
           insert_localtion(msg.x, msg.y);
         }
-        /*if ((msg.tag) == "0EA3"){
+
+        if ((msg.Tag) == "0EA3"){
           insert_location(msg.x, msg.y);
-        }*/
+        }
       }
     }
 
@@ -1142,7 +1148,7 @@ input:checked + label {
     var xadd = 120;
     var yadd = 395;
     var tag_xcale, tag_ycale
-    //var tag_xscale, tag_yscale
+    var tag_xscale, tag_yscale
 
     function init() {
       a.src = "/assets/img/LabCaoThang-Layout.svg";
@@ -1180,16 +1186,27 @@ input:checked + label {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(a, 0, 0, canvas.width, canvas.height);
       drawBall();
-      //drawBall2();
+      drawBall2();
       socket.on('data-send-from-server', (data) => {
         tag_xcale = data.xcale;
         tag_ycale = data.ycale;
+      })
+      socket.on('data-send-from-server1', (data) =>{
         tag_xscale = data.xscale;
         tag_yscale = data.yscale;
       })
       window.requestAnimationFrame(draw);
     }
-
+    /*function draw2(){
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(a, 0, 0, canvas.width, canvas.height);
+      drawBall2();
+      socket.on('data-send-from-server1', (data) => {
+        tag_xscale = data.xscale;
+        tag_yscale = data.yscale;
+      })
+      window.requestAnimationFrame(draw2);
+    }*/
     init();
 </script>
 <script>
