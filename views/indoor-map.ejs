@@ -975,6 +975,18 @@ input:checked + label {
                             <button class="btn btn-info btn sweet-ajax">Find</button>
                           </div>
                         </div>
+                        <hr>
+                        <div class="row" >
+                          <div class="col-6">
+                            <h5>DWM 0EA3</h5>
+                            <p><small><i class="fa fa-circle text-success"></i></small>Online</p>
+                            <small>x: 2.34 , y: 4.64 , z: 1.32</small>
+                          </div>
+                          <div class="col-6">
+                            <button class="btn btn-success btn sweet-success">Edit</button>
+                            <button class="btn btn-info btn sweet-ajax">Find</button>
+                          </div>
+                        </div>
                   </div>
                   <div class="tab-pane" id="messages7" role="tabpanel" style="padding-top:20px">
                       <div class="row" >
@@ -1141,17 +1153,17 @@ input:checked + label {
     var a = new Image();
     var canvas = document.getElementById("myCanvas");
     var ctx = canvas.getContext("2d");
-    var xroom=8.57;
-    var yroom=3.83;
-    var xpixel=650;
-    var ypixel=290;
-    var xadd = 120;
-    var yadd = 395;
+    var xroom=9;
+    var yroom=4;
+    var xpixel=830;
+    var ypixel=430;
+    var xadd = 40;
+    var yadd = 460;
     var tag_xcale, tag_ycale
     var tag_xscale, tag_yscale
 
     function init() {
-      a.src = "/assets/img/LabCaoThang-Layout.svg";
+      a.src = "/assets/img/Tab1.png";
       window.requestAnimationFrame(draw);
     }
 
@@ -1160,7 +1172,7 @@ input:checked + label {
       ctx.arc(
         (tag_xcale/xroom)*xpixel+xadd,
         -(tag_ycale/yroom)*ypixel+yadd,
-        8,
+        10,
         0,
         2 * Math.PI
       );
@@ -1173,7 +1185,7 @@ input:checked + label {
       ctx.arc(
         (tag_xscale/xroom)*xpixel+xadd,
         -(tag_yscale/yroom)*ypixel+yadd,
-        8,
+        10,
         0,
         2 * Math.PI
       );
