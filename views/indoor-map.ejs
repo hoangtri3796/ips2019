@@ -882,9 +882,8 @@ input:checked + label {
                   <label for="tab4">B4</label>
                 
                   <div class="display1" id="content1">
-                      <canvas id="myCanvas"  width="890" height="500" style="border:5px solid #d3d3d3;">
                   </div>
-                
+                      <canvas style="padding-left:200px" id="myCanvas"  width="400" height="1000" style="border:5px solid #d3d3d3;">
                   <div class="display1" id="content2">
                       <canvas id="map1"  width="890" height="500" style="border:5px solid #d3d3d3;">
                   </div>
@@ -955,6 +954,18 @@ input:checked + label {
                             <button class="btn btn-info btn sweet-ajax">Find</button>
                           </div>
                       </div>
+                      <hr>
+                      <div class="row" >
+                        <div class="col-6">
+                          <h5>DWM 158C</h5>
+                          <p><small><i class="fa fa-circle text-success"></i></small>Online</p>
+                          <small>x: 9.32 , y: 6.23 , z: 1.63</small>
+                        </div>
+                        <div class="col-6">
+                          <button class="btn btn-success btn sweet-success">Edit</button>
+                          <button class="btn btn-info btn sweet-ajax">Find</button>
+                        </div>
+                    </div>
                     </div>
                     <div class='file-input'>
                         <input type='file'>
@@ -968,7 +979,7 @@ input:checked + label {
                           <div class="col-6">
                             <h5>DWM 152A</h5>
                             <p><small><i class="fa fa-circle text-success"></i></small>Online</p>
-                            <small>x: 2.34 , y: 4.64 , z: 1.32</small>
+                            <small>x: 4.34 , y: 2.84 , z: 1.32</small>
                           </div>
                           <div class="col-6">
                             <button class="btn btn-success btn sweet-success">Edit</button>
@@ -980,7 +991,7 @@ input:checked + label {
                           <div class="col-6">
                             <h5>DWM 0EA3</h5>
                             <p><small><i class="fa fa-circle text-success"></i></small>Online</p>
-                            <small>x: 2.34 , y: 4.64 , z: 1.32</small>
+                            <small>x: 4.62 , y: 0.94 , z: 1.32</small>
                           </div>
                           <div class="col-6">
                             <button class="btn btn-success btn sweet-success">Edit</button>
@@ -1055,6 +1066,14 @@ input:checked + label {
     vitri1.xscale = 2;
     vitri1.yscale = 2;
     
+    var vitri2 = new classLocation();
+    vitri2.xscale1 = 1;
+    vitri2.xscale1 = 1;
+
+    var vitri3 = new classLocation();
+    vitri3.xscale2 = 1;
+    vitri3.xscale2 = 1;
+
     function insert_localtion(xcale, ycale) {
       vitri.xcale = xcale;
       vitri.ycale = ycale;
@@ -1065,6 +1084,16 @@ input:checked + label {
       vitri1.xscale = xscale;
       vitri1.yscale = yscale;
       socket.emit("data-send1",vitri1)
+    }
+    function insert_location1(xscale1, yscale1){
+      vitri2.xscale1 = xscale1;
+      vitri2.yscale1 = yscale1;
+      socket.emit("data-send2",vitri2)
+    }
+    function insert_location2(xscale2, yscale2){
+      vitri3.xscale2 = xscale2;
+      vitri3.yscale2 = yscale2;
+      socket.emit("data-send3",vitri3)
     }
     /*var canvas = document.getElementById("canvas");
     var ctx = canvas.getContext("2d");
@@ -1144,8 +1173,15 @@ input:checked + label {
         if ((msg.Tag) == "0EA3"){
           insert_location(msg.x, msg.y);
         }
+        /*if ((msg.Tag) == "0C01"){
+          insert_location1(msg.x, msg.y);
+        }
+        if ((msg.Tag) == "158C"){
+          insert_location2(msg.x, msg.y);
+        }*/
       }
     }
+    
 
 </script>
   <script>
@@ -1153,20 +1189,72 @@ input:checked + label {
     var a = new Image();
     var canvas = document.getElementById("myCanvas");
     var ctx = canvas.getContext("2d");
-    var xroom=9;
-    var yroom=4;
-    var xpixel=830;
-    var ypixel=430;
-    var xadd = 40;
-    var yadd = 460;
+   
+    var xroom=9.75;   //xroom=9.62;
+    var yroom=21;  //yroom=14.7;
+    var xpixel=350; //xpixel=690;
+    var ypixel=940; //ypixel=700;
+    var xadd = 20;  //xadd = 170; 
+    var yadd = 970; //yadd = 720;
+  
     var tag_xcale, tag_ycale
     var tag_xscale, tag_yscale
+    var tag_xscale1, tag_yscale1
+    var tag_xscale2, tag_yscale2
 
     function init() {
-      a.src = "/assets/img/Tab1.png";
+      a.src = "/assets/img/Supermarket.png";
       window.requestAnimationFrame(draw);
     }
 
+    function drawAnchor1(){
+      ctx.rect(170, 720, 15, 15);
+      ctx.fillStyle = "#eb2132";
+      ctx.fill();
+      ctx.stroke();
+    }
+    function drawAnchor2(){
+      ctx.rect(670, 720, 15, 15);
+      ctx.fillStyle = "#eb2132";
+      ctx.fill();
+      ctx.stroke();
+    }
+    function drawAnchor3(){
+      ctx.rect(170, 470, 15, 15);
+      ctx.fillStyle = "#eb2132";
+      ctx.fill();
+      ctx.stroke();
+    }
+    function drawAnchor4(){
+      ctx.rect(670, 470, 15, 15);
+      ctx.fillStyle = "#eb2132";
+      ctx.fill();
+      ctx.stroke();
+    }
+    function drawAnchor5(){
+      ctx.rect(850, 370, 15, 15);
+      ctx.fillStyle = "#eb2132";
+      ctx.fill();
+      ctx.stroke();
+    }
+    function drawAnchor6(){
+      ctx.rect(170, 30, 15, 15);
+      ctx.fillStyle = "#eb2132";
+      ctx.fill();
+      ctx.stroke();
+    }
+    function drawAnchor7(){
+      ctx.rect(670, 30, 15, 15);
+      ctx.fillStyle = "#eb2132";
+      ctx.fill();
+      ctx.stroke();
+    }
+    function drawAnchor8(){
+      ctx.rect(850,720,15,15);
+      ctx.fillStyle = "#eb2132";
+      ctx.fill();
+      ctx.stroke();
+    }
     function drawBall() {
       ctx.beginPath();
       ctx.arc(
@@ -1176,11 +1264,11 @@ input:checked + label {
         0,
         2 * Math.PI
       );
-      ctx.fillStyle = "#337cf2";
+      ctx.fillStyle = "#2775f2";
       ctx.fill();
       ctx.closePath();
     }
-    function drawBall2() {
+    /*function drawBall2() {
       ctx.beginPath();
       ctx.arc(
         (tag_xscale/xroom)*xpixel+xadd,
@@ -1193,33 +1281,60 @@ input:checked + label {
       ctx.fill();
       ctx.closePath();
     }
-
+    function drawBall3() {
+      ctx.beginPath();
+      ctx.arc(
+        (tag_xscale1/xroom)*xpixel+xadd,
+        -(tag_yscale1/yroom)*ypixel+yadd,
+        10,
+        0,
+        2 * Math.PI
+      );
+      ctx.fillStyle = "#c42d67";
+      ctx.fill();
+      ctx.closePath();
+    }
+    function drawBall4() {
+      ctx.beginPath();
+      ctx.arc(
+        (tag_xscale2/xroom)*xpixel+xadd,
+        -(tag_yscale2/yroom)*ypixel+yadd,
+        10,
+        0,
+        2 * Math.PI
+      );
+      ctx.fillStyle = "#d4000e";
+      ctx.fill();
+      ctx.closePath();
+    }*/
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(a, 0, 0, canvas.width, canvas.height);
       drawBall();
-      drawBall2();
+      //drawBall2();
+      //drawBall3();
+      //drawBall4();
       socket.on('data-send-from-server', (data) => {
         tag_xcale = data.xcale;
         tag_ycale = data.ycale;
       })
-      socket.on('data-send-from-server1', (data) =>{
+      /*socket.on('data-send-from-server1', (data) => {
         tag_xscale = data.xscale;
         tag_yscale = data.yscale;
       })
+      socket.on('data-send-from-server2', (data) => {
+        tag_xscale1 = data.xscale1;
+        tag_yscale1 = data.yscale1;
+      })
+      socket.on('data-send-from-server3', (data) => {
+        tag_xscale2 = data.xscale2;
+        tag_yscale2 = data.yscale2;
+      })*/
       window.requestAnimationFrame(draw);
     }
-    /*function draw2(){
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(a, 0, 0, canvas.width, canvas.height);
-      drawBall2();
-      socket.on('data-send-from-server1', (data) => {
-        tag_xscale = data.xscale;
-        tag_yscale = data.yscale;
-      })
-      window.requestAnimationFrame(draw2);
-    }*/
     init();
+</script>
+    
 </script>
 <script>
 var inputs = document.querySelectorAll('.file-input')
