@@ -1169,12 +1169,12 @@ input:checked + label {
         if ((msg.Tag) == "152A"){
           insert_localtion(msg.x, msg.y);
         $('#posdata').html('')
-        $('#posdata').append("<div>" + "x : " + msg.x + "<\div>" + "<div>" + "y : " + msg.y + "</div>" + "<div>" + "z : " + msg.z + "</div>")
+        $('#posdata').append("<div>" + "x : " + msg.x + "</div>" + "<div>" + "y : " + msg.y + "</div>")
         }
         if ((msg.Tag) == "0EA3"){
           insert_location(msg.x, msg.y);
         $('#locdata').html('')
-        $('#locdata').append("<div>" + "x : " + msg.x + "<\div>" + "<div>" + "y : " + msg.y + "</div>" + "<div>" + "z : " + msg.z + "</div>")
+        $('#locdata').append("<div>" + "x : " + msg.x + "</div>" + "<div>" + "y : " + msg.y + "</div>")
         }
         /*if ((msg.Tag) == "0C01"){
           insert_location1(msg.x, msg.y);
