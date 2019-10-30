@@ -6,8 +6,6 @@ const passport = require('passport');
 const flash = require('connect-flash');
 const mongoose = require("mongoose");
 const io = require("socket.io")(server);
-
-
 //EJS
 app.set("views", "./views");
 app.set("view engine", "ejs");
